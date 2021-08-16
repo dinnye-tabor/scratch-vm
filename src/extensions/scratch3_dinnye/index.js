@@ -85,7 +85,7 @@ class Scratch3Dinnye {
                     blockType: BlockType.COMMAND,
                     text: 'drive [COMMAND]',
                     arguments: {
-                        TEXT: {
+                        COMMAND: {
                             type: ArgumentType.STRING,
                             defaultValue: "forward",
                             menu: "commands"
@@ -156,18 +156,6 @@ class Scratch3Dinnye {
                     acceptReporters: true,
                     items: [
 						{text: "forward", value: "forward"}, 
-						{text: "stop", value: "stop"},
-						{text: "backward", value: "backward"},
-						{text: "turnleft", value: "turnleft"},
-						{text: "turnright", value: "turnright"},
-						{text: "left", value: "left"},
-						{text: "right", value: "right"}
-					]
-                },
-				ports: {
-                    acceptReporters: true,
-                    items: [
-						{text: "1", value: "forward"}, 
 						{text: "stop", value: "stop"},
 						{text: "backward", value: "backward"},
 						{text: "turnleft", value: "turnleft"},
