@@ -26,8 +26,8 @@ class Scratch3Dinnye {
                     text: 'led [PORT] [VALUE]',
                     arguments: {
                         PORT: {
-                            type: ArgumentType.Number,
-                            defaultValue: "1"
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 1
                         },
                         VALUE: {
                             type: ArgumentType.STRING,
@@ -42,8 +42,8 @@ class Scratch3Dinnye {
                     text: 'rgbled [PORT] [PATTERN]',
                     arguments: {
                         PORT: {
-                            type: ArgumentType.Number,
-                            defaultValue: "1"
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 1
                         },
                         PATTERN: {
                             type: ArgumentType.STRING,
@@ -70,12 +70,12 @@ class Scratch3Dinnye {
                     text: 'motor [PORT] [VALUE]',
                     arguments: {
 						PORT: {
-                            type: ArgumentType.Number,
-                            defaultValue: "1"
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 3
                         },
                         VALUE: {
-                            type: ArgumentType.Number,
-                            defaultValue: "10"
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 10
                         }
                     }
                 },
@@ -132,8 +132,8 @@ class Scratch3Dinnye {
                     text: 'button [PORT]',
                     arguments: {
                         PORT: {
-                            type: ArgumentType.Number,
-                            defaultValue: "1"
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 2
                         }
                     }
                 },
@@ -144,8 +144,8 @@ class Scratch3Dinnye {
                     text: 'input [PORT]',
                     arguments: {
                         PORT: {
-                            type: ArgumentType.Number,
-                            defaultValue: "1"
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 1
                         }
                     }
                 }
