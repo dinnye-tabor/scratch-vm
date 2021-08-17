@@ -7,8 +7,6 @@ const fetchWithTimeout = require('../../util/fetch-with-timeout');
 const serverURL = 'https://dinnye-tabor.herokuapp.com/api/boards';
 const serverTimeoutMs = 1000; // 1 sec
 
-const delay = ms => new Promise(res => setTimeout(res, ms));
-
 const apiCalls = {
 	distance: { lastCall: null, lastValue: null },
 	rawdistance: { lastCall: null, lastValue: null },
@@ -25,10 +23,9 @@ class Scratch3Dinnye {
         this.runtime = runtime;
 		this.panelName = null;
 		
-		this.getIntegerValue = async function (valueType) {
-			await delay(200);
+		this.getIntegerValue = function (valueType) {
 			let responseBase = `${serverURL}/${this.panelName}/response`;
-
+			
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
 				.then(response => {
 					let result = parseInt(response);
@@ -43,8 +40,7 @@ class Scratch3Dinnye {
 			return promise;
 		};
 		
-		this.getFloatValue = async function (valueType) {
-			await delay(200);
+		this.getFloatValue = function (valueType) {
 			let responseBase = `${serverURL}/${this.panelName}/response`;
 			
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
@@ -61,8 +57,7 @@ class Scratch3Dinnye {
 			return promise;
 		};
 		
-		this.getStringValue = async function (valueType) {
-			await delay(200);
+		this.getStringValue = function (valueType) {
 			let responseBase = `${serverURL}/${this.panelName}/response`;
 			
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
@@ -79,8 +74,7 @@ class Scratch3Dinnye {
 			return promise;
 		}
 		
-		this.getBooleanValue = async function (valueType) {
-			await delay(200); 
+		this.getBooleanValue = function (valueType) {
 			let responseBase = `${serverURL}/${this.panelName}/response`;
 			
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
