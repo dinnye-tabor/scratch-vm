@@ -7,65 +7,63 @@ const fetchWithTimeout = require('../../util/fetch-with-timeout');
 const serverURL = 'https://dinnye-tabor.herokuapp.com/api/boards';
 const serverTimeoutMs = 1000; // 1 sec
 
+const delay = async (ms: number) => new Promise(res => setTimeout(res, ms));
+
 class Scratch3Dinnye {
     constructor (runtime) {
         this.runtime = runtime;
 		this.panelName = null;
 		
-		this.getIntegerValue = function () {
-			setTimeout(function(){ 
-				let responseBase = `${serverURL}/${this.panelName}/response`;
+		this.getIntegerValue = async function () {
+			await delay(200);
+			let responseBase = `${serverURL}/${this.panelName}/response`;
 
-				const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-					.then(response => parseInt(response))
-					.catch(err => {
-						log.warn(`error fetching value! ${err}`);
-						return -1;
-					});
-				return promise;
-			}.bind(this), 200);
+			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
+				.then(response => parseInt(response))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return -1;
+				});
+			return promise;
 		};
 		
-		this.getFloatValue = function () {
-			setTimeout(function(){ 
-				let responseBase = `${serverURL}/${this.panelName}/response`;
-				
-				const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-					.then(response => parseFloat(response))
-					.catch(err => {
-						log.warn(`error fetching value! ${err}`);
-						return -1;
-					});
-				return promise;
-			}.bind(this), 200);
+		this.getFloatValue = async function () {
+			await delay(200);
+			let responseBase = `${serverURL}/${this.panelName}/response`;
+			
+			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
+				.then(response => parseFloat(response))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return -1;
+				});
+			return promise;
 		};
 		
-		this.getStringValue = function () {
-			setTimeout(function(){ 
-				let responseBase = `${serverURL}/${this.panelName}/response`;
-				
-				const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-					.then(response => response)
-					.catch(err => {
-						log.warn(`error fetching value! ${err}`);
-						return -1;
-					});
-				return promise;
-			}.bind(this), 200);
+		this.getStringValue = async function () {
+			await delay(200);
+			let responseBase = `${serverURL}/${this.panelName}/response`;
+			
+			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
+				.then(response => response)
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return -1;
+				});
+			return promise;
 		}
 		
-		this.getBooleanValue = function () {
-			setTimeout(function(){ 
-				let responseBase = `${serverURL}/${this.panelName}/response`;
-				
-				const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-					.then(response => (response === "on"))
-					.catch(err => {
-						log.warn(`error fetching value! ${err}`);
-						return -1;
-					});
-				return promise;
-			}.bind(this), 200);
+		this.getBooleanValue = async function () {
+			await delay(200); 
+			let responseBase = `${serverURL}/${this.panelName}/response`;
+			
+			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
+				.then(response => (response === "on"))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return -1;
+				});
+			return promise;
 		}
     }
 
