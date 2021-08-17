@@ -242,7 +242,7 @@ class Scratch3Dinnye {
 		let urlBase = `${serverURL}/${this.panelName}/command/distance`;
 		
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => this.getNumericValue)
+            .then(response => this.getNumericValue())
             .catch(err => {
                 log.warn(`error fetching value! ${err}`);
                 return '';
