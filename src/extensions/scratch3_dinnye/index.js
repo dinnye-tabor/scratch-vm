@@ -37,22 +37,6 @@ class Scratch3Dinnye {
                 },
 				
 				{
-                    opcode: 'rgbled',
-                    blockType: BlockType.COMMAND,
-                    text: 'rgbled [PORT] [PATTERN]',
-                    arguments: {
-                        PORT: {
-                            type: ArgumentType.NUMBER,
-                            defaultValue: 1
-                        },
-                        PATTERN: {
-                            type: ArgumentType.STRING,
-                            defaultValue: "rrr-ggg"
-                        }
-                    }
-                },
-				
-				{
                     opcode: 'rgbledsimple',
                     blockType: BlockType.COMMAND,
                     text: 'rgbled [PATTERN]',
@@ -75,7 +59,7 @@ class Scratch3Dinnye {
                         },
                         VALUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 10
+                            defaultValue: 50
                         }
                     }
                 },
@@ -83,12 +67,12 @@ class Scratch3Dinnye {
 				{
                     opcode: 'drive',
                     blockType: BlockType.COMMAND,
-                    text: 'drive [COMMAND]',
+                    text: 'drive [C]',
                     arguments: {
-                        COMMAND: {
+                        C: {
                             type: ArgumentType.STRING,
                             defaultValue: "forward",
-                            menu: "commands"
+                            menu: "cs"
                         }
                     }
                 },
@@ -152,7 +136,7 @@ class Scratch3Dinnye {
 				
             ],
             menus: {
-                commands: {
+                cs: {
                     acceptReporters: true,
                     items: [
 						{text: "forward", value: "forward"}, 
@@ -176,18 +160,6 @@ class Scratch3Dinnye {
 	
 	led (args) {
 		let urlBase = `${serverURL}led/${args.PORT}/${args.VALUE}`;
-
-        const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => {
-                log.warn(response);
-            })
-            .catch(err => {
-                log.warn(`error fetching value! ${err}`);
-            });
-    }
-	
-	rgbled (args) {
-		let urlBase = `${serverURL}rgbled/${args.PORT}/${args.PATTERN}`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => {
