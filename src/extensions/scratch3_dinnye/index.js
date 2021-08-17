@@ -13,51 +13,59 @@ class Scratch3Dinnye {
 		this.panelName = null;
 		
 		this.getIntegerValue = function () {
-			let responseBase = `${serverURL}/${this.panelName}/response`;
-			
-			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => parseInt(response))
-				.catch(err => {
-					log.warn(`error fetching value! ${err}`);
-					return -1;
-				});
-			return promise;
+			setTimeout(function(){ 
+				let responseBase = `${serverURL}/${this.panelName}/response`;
+
+				const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
+					.then(response => parseInt(response))
+					.catch(err => {
+						log.warn(`error fetching value! ${err}`);
+						return -1;
+					});
+				return promise;
+			}.bind(this), 200);
 		};
 		
 		this.getFloatValue = function () {
-			let responseBase = `${serverURL}/${this.panelName}/response`;
-			
-			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => parseFloat(response))
-				.catch(err => {
-					log.warn(`error fetching value! ${err}`);
-					return -1;
-				});
-			return promise;
+			setTimeout(function(){ 
+				let responseBase = `${serverURL}/${this.panelName}/response`;
+				
+				const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
+					.then(response => parseFloat(response))
+					.catch(err => {
+						log.warn(`error fetching value! ${err}`);
+						return -1;
+					});
+				return promise;
+			}.bind(this), 200);
 		};
 		
 		this.getStringValue = function () {
-			let responseBase = `${serverURL}/${this.panelName}/response`;
-			
-			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => response)
-				.catch(err => {
-					log.warn(`error fetching value! ${err}`);
-					return -1;
-				});
-			return promise;
+			setTimeout(function(){ 
+				let responseBase = `${serverURL}/${this.panelName}/response`;
+				
+				const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
+					.then(response => response)
+					.catch(err => {
+						log.warn(`error fetching value! ${err}`);
+						return -1;
+					});
+				return promise;
+			}.bind(this), 200);
 		}
 		
 		this.getBooleanValue = function () {
-			let responseBase = `${serverURL}/${this.panelName}/response`;
-			
-			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => (response === "on"))
-				.catch(err => {
-					log.warn(`error fetching value! ${err}`);
-					return -1;
-				});
-			return promise;
+			setTimeout(function(){ 
+				let responseBase = `${serverURL}/${this.panelName}/response`;
+				
+				const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
+					.then(response => (response === "on"))
+					.catch(err => {
+						log.warn(`error fetching value! ${err}`);
+						return -1;
+					});
+				return promise;
+			}.bind(this), 200);
 		}
     }
 
@@ -312,7 +320,7 @@ class Scratch3Dinnye {
     drive (args) {
 		if (this.panelName === null) return
 		
-		let urlBase = `${serverURL}/${this.panelName}/command/drive/${args.COMMAND}`;
+		let urlBase = `${serverURL}/${this.panelName}/command/drive/${args.C}`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => {
