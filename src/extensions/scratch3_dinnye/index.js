@@ -7,7 +7,7 @@ const fetchWithTimeout = require('../../util/fetch-with-timeout');
 const serverURL = 'https://dinnye-tabor.herokuapp.com/api/boards';
 const serverTimeoutMs = 1000; // 1 sec
 
-const delay = async (ms: number) => new Promise(res => setTimeout(res, ms));
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const apiCalls = {
 	distance: { lastCall: null, lastValue: null }
