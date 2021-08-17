@@ -136,18 +136,7 @@ class Scratch3Dinnye {
 				
             ],
             menus: {
-                cs: {
-                    acceptReporters: true,
-                    items: [
-						{text: "forward", value: "forward"}, 
-						{text: "stop", value: "stop"},
-						{text: "backward", value: "backward"},
-						{text: "turnleft", value: "turnleft"},
-						{text: "turnright", value: "turnright"},
-						{text: "left", value: "left"},
-						{text: "right", value: "right"}
-					]
-                }
+                cs: [ "forward", "stop",  "backward", "turnleft", "turnright", "left", "right" ]
             }
         };
     }
