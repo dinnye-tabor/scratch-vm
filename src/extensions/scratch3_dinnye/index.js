@@ -11,6 +11,18 @@ class Scratch3Dinnye {
     constructor (runtime) {
         this.runtime = runtime;
 		this.panelName = '';
+		
+		this.getNumericValue = function () {
+			let responseBase = `${serverURL}/${this.panelName}/response`;
+			
+			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
+				.then(response => parseInt(response.text()))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return -1;
+				});
+			return promise;
+		}
     }
 
     getInfo () {
@@ -27,7 +39,8 @@ class Scratch3Dinnye {
                     text: 'set panel name [NAME]',
                     arguments: {
                         NAME: {
-                            type: ArgumentType.STRING
+                            type: ArgumentType.STRING,
+							defaultValue: ""
                         }
                     }
                 },
@@ -148,7 +161,8 @@ class Scratch3Dinnye {
 				
             ],
             menus: {
-                cs: [ "forward", "stop",  "backward", "turnleft", "turnright", "left", "right" ]
+                cs: [ "forward", "stop",  "backward", "turnleft", "turnright", "left", "right" ],
+                st: [ "on", "off" ]
             }
         };
     }
@@ -162,6 +176,7 @@ class Scratch3Dinnye {
 	setPanelName (args) {
 		this.panelName = args.NAME
     }
+	
 	// COMMANDS
 	
 	led (args) {
@@ -225,14 +240,15 @@ class Scratch3Dinnye {
 		if (this.panelName === null) return
 		
 		let urlBase = `${serverURL}/${this.panelName}/command/distance`;
-
+		
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => parseInt(response.text()))
+            .then(response => this.getNumericValue)
             .catch(err => {
                 log.warn(`error fetching value! ${err}`);
                 return '';
             });
         return promise;
+		
     }
 	
 	rawdistance (args) {
