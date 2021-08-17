@@ -10,7 +10,7 @@ const serverTimeoutMs = 1000; // 1 sec
 class Scratch3Dinnye {
     constructor (runtime) {
         this.runtime = runtime;
-		this.panelName = '';
+		this.panelName = null;
 		
 		this.getNumericValue = function () {
 			let responseBase = `${serverURL}/${this.panelName}/response`;
