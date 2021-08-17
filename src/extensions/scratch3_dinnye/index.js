@@ -76,7 +76,7 @@ class Scratch3Dinnye {
                     arguments: {
                         NAME: {
                             type: ArgumentType.STRING,
-							defaultValue: " "
+							defaultValue: "74-A8-81"
                         }
                     }
                 },
