@@ -4,7 +4,7 @@ const Cast = require('../../util/cast');
 const log = require('../../util/log');
 const fetchWithTimeout = require('../../util/fetch-with-timeout');
 
-const serverURL = '/';
+const serverURL = 'https://dinnye-tabor.herokuapp.com/api/';
 const serverTimeoutMs = 1000; // 1 sec
 
 class Scratch3Dinnye {
