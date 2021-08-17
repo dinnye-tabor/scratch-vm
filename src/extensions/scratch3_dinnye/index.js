@@ -9,17 +9,33 @@ const serverTimeoutMs = 1000; // 1 sec
 
 const delay = async (ms: number) => new Promise(res => setTimeout(res, ms));
 
+const apiCalls = {
+	distance: { lastCall: null, lastValue: null }
+	rawdistance: { lastCall: null, lastValue: null }
+	gesture: { lastCall: null, lastValue: null }
+	voltage: { lastCall: null, lastValue: null }
+	wifi: { lastCall: null, lastValue: null }
+	temperature: { lastCall: null, lastValue: null }
+	button: { lastCall: null, lastValue: null }
+	input: { lastCall: null, lastValue: null }
+}
+
 class Scratch3Dinnye {
     constructor (runtime) {
         this.runtime = runtime;
 		this.panelName = null;
 		
-		this.getIntegerValue = async function () {
+		this.getIntegerValue = async function (valueType) {
 			await delay(200);
 			let responseBase = `${serverURL}/${this.panelName}/response`;
 
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => parseInt(response))
+				.then(response => {
+					let result = parseInt(response);
+					apiCalls[valueType].lastCall = new Date().getTime();
+					apiCalls[valueType].lastValue = result;
+					return result;
+				})
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return -1;
@@ -27,12 +43,17 @@ class Scratch3Dinnye {
 			return promise;
 		};
 		
-		this.getFloatValue = async function () {
+		this.getFloatValue = async function (valueType) {
 			await delay(200);
 			let responseBase = `${serverURL}/${this.panelName}/response`;
 			
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => parseFloat(response))
+				.then(response => {
+					let result = parseFloat(response);
+					apiCalls[valueType].lastCall = new Date().getTime();
+					apiCalls[valueType].lastValue = result;
+					return result;
+				})
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return -1;
@@ -40,12 +61,17 @@ class Scratch3Dinnye {
 			return promise;
 		};
 		
-		this.getStringValue = async function () {
+		this.getStringValue = async function (valueType) {
 			await delay(200);
 			let responseBase = `${serverURL}/${this.panelName}/response`;
 			
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => response)
+				.then(response => {
+					let result = response;
+					apiCalls[valueType].lastCall = new Date().getTime();
+					apiCalls[valueType].lastValue = result;
+					return result;
+				})
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return -1;
@@ -53,12 +79,17 @@ class Scratch3Dinnye {
 			return promise;
 		}
 		
-		this.getBooleanValue = async function () {
+		this.getBooleanValue = async function (valueType) {
 			await delay(200); 
 			let responseBase = `${serverURL}/${this.panelName}/response`;
 			
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => (response === "on"))
+				.then(response => {
+					let result = (response === "on");
+					apiCalls[valueType].lastCall = new Date().getTime();
+					apiCalls[valueType].lastValue = result;
+					return result;
+				})
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return -1;
@@ -333,115 +364,149 @@ class Scratch3Dinnye {
     distance (args) {
 		if (this.panelName === null) return
 		
-		let urlBase = `${serverURL}/${this.panelName}/command/distance`;
+		if (apiCalls.distance.lastCall + 100 > new Date().getTime()) {
+			return apiCalls.distance.lastValue
+		} else {
+			let urlBase = `${serverURL}/${this.panelName}/command/distance`;
 		
-        const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => this.getIntegerValue())
-            .catch(err => {
-                log.warn(`error fetching value! ${err}`);
-                return '';
-            });
-        return promise;
-		
+			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
+				.then(response => this.getIntegerValue('distance'))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return '';
+				});
+			return promise;
+		}		
     }
 	
 	rawdistance (args) {
 		if (this.panelName === null) return
 		
-		let urlBase = `${serverURL}/${this.panelName}/command/rawdistance`;
+		if (apiCalls.rawdistance.lastCall + 100 > new Date().getTime()) {
+			return apiCalls.rawdistance.lastValue
+		} else {
+			let urlBase = `${serverURL}/${this.panelName}/command/rawdistance`;
 
-        const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => this.getIntegerValue())
-            .catch(err => {
-                log.warn(`error fetching value! ${err}`);
-                return '';
-            });
-        return promise;
+			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
+				.then(response => this.getIntegerValue('rawdistance'))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return '';
+				});
+			return promise;
+		}
     }
 	
 	gesture (args) {
 		if (this.panelName === null) return
 		
-		let urlBase = `${serverURL}/${this.panelName}/command/gesture`;
+		if (apiCalls.gesture.lastCall + 100 > new Date().getTime()) {
+			return apiCalls.gesture.lastValue
+		} else {	
+			let urlBase = `${serverURL}/${this.panelName}/command/gesture`;
 
-        const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => this.getStringValue())
-            .catch(err => {
-                log.warn(`error fetching value! ${err}`);
-                return '';
-            });
-        return promise;
+			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
+				.then(response => this.getStringValue('gesture'))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return '';
+				});
+			return promise;
+		} 
     }
 	
 	voltage (args) {
 		if (this.panelName === null) return
 		
-		let urlBase = `${serverURL}/${this.panelName}/command/voltage`;
+		if (apiCalls.voltage.lastCall + 100 > new Date().getTime()) {
+			return apiCalls.voltage.lastValue
+		} else {
+		
+			let urlBase = `${serverURL}/${this.panelName}/command/voltage`;
 
-        const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => this.getFloatValue())
-            .catch(err => {
-                log.warn(`error fetching value! ${err}`);
-                return '';
-            });
-        return promise;
+			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
+				.then(response => this.getFloatValue('voltage'))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return '';
+				});
+			return promise;
+		}
     }
 	
 	wifi (args) {
 		if (this.panelName === null) return
 		
-		let urlBase = `${serverURL}/${this.panelName}/command/wifi`;
+		if (apiCalls.wifi.lastCall + 100 > new Date().getTime()) {
+			return apiCalls.wifi.lastValue
+		} else {
+			let urlBase = `${serverURL}/${this.panelName}/command/wifi`;
 
-        const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => this.getIntegerValue())
-            .catch(err => {
-                log.warn(`error fetching value! ${err}`);
-                return '';
-            });
-        return promise;
+			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
+				.then(response => this.getIntegerValue('wifi'))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return '';
+				});
+			return promise;
+		}
     }
 	
 	temperature (args) {
 		if (this.panelName === null) return
 		
-		let urlBase = `${serverURL}/${this.panelName}/command/temperature`;
+		if (apiCalls.temperature.lastCall + 100 > new Date().getTime()) {
+			return apiCalls.temperature.lastValue
+		} else {
+		
+			let urlBase = `${serverURL}/${this.panelName}/command/temperature`;
 
-        const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => this.getIntegerValue())
-            .catch(err => {
-                log.warn(`error fetching value! ${err}`);
-                return '';
-            });
-        return promise;
+			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
+				.then(response => this.getIntegerValue('temperature'))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return '';
+				});
+			return promise;
+		}
     }
 	
 	// BOOLEAN
 	button (args) {
 		if (this.panelName === null) return
 		
-		let urlBase = `${serverURL}/${this.panelName}/command/button/${args.PORT}`;
+		if (apiCalls.button.lastCall + 100 > new Date().getTime()) {
+			return apiCalls.button.lastValue
+		} else {
+			
+			let urlBase = `${serverURL}/${this.panelName}/command/button/${args.PORT}`;
 
-        const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => this.getBooleanValue())
-            .catch(err => {
-                log.warn(`error fetching value! ${err}`);
-                return '';
-            });
-        return promise;
+			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
+				.then(response => this.getBooleanValue('button'))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return '';
+				});
+			return promise;
+		}
     }
 	
 	input (args) {
 		if (this.panelName === null) return
 		
-		let urlBase = `${serverURL}/${this.panelName}/command/input/${args.PORT}`;
+		if (apiCalls.input.lastCall + 100 > new Date().getTime()) {
+			return apiCalls.input.lastValue
+		} else {
+			let urlBase = `${serverURL}/${this.panelName}/command/input/${args.PORT}`;
 
-        const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => this.getBooleanValue())
-            .catch(err => {
-                log.warn(`error fetching value! ${err}`);
-                return '';
-            });
-        return promise;
+			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
+				.then(response => this.getBooleanValue('input'))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return '';
+				});
+			return promise;
+		}
     }
 	
 }
