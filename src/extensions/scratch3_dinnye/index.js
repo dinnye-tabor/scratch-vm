@@ -12,11 +12,47 @@ class Scratch3Dinnye {
         this.runtime = runtime;
 		this.panelName = null;
 		
-		this.getNumericValue = function () {
+		this.getIntegerValue = function () {
 			let responseBase = `${serverURL}/${this.panelName}/response`;
 			
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => parseInt(response.text()))
+				.then(response => parseInt(response))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return -1;
+				});
+			return promise;
+		};
+		
+		this.getFloatValue = function () {
+			let responseBase = `${serverURL}/${this.panelName}/response`;
+			
+			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
+				.then(response => parseFloat(response))
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return -1;
+				});
+			return promise;
+		};
+		
+		this.getStringValue = function () {
+			let responseBase = `${serverURL}/${this.panelName}/response`;
+			
+			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
+				.then(response => response)
+				.catch(err => {
+					log.warn(`error fetching value! ${err}`);
+					return -1;
+				});
+			return promise;
+		}
+		
+		this.getBooleanValue = function () {
+			let responseBase = `${serverURL}/${this.panelName}/response`;
+			
+			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
+				.then(response => (response === "on"))
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return -1;
@@ -40,7 +76,7 @@ class Scratch3Dinnye {
                     arguments: {
                         NAME: {
                             type: ArgumentType.STRING,
-							defaultValue: ""
+							defaultValue: " "
                         }
                     }
                 },
@@ -242,7 +278,7 @@ class Scratch3Dinnye {
 		let urlBase = `${serverURL}/${this.panelName}/command/distance`;
 		
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => this.getNumericValue())
+            .then(response => this.getIntegerValue())
             .catch(err => {
                 log.warn(`error fetching value! ${err}`);
                 return '';
@@ -257,7 +293,7 @@ class Scratch3Dinnye {
 		let urlBase = `${serverURL}/${this.panelName}/command/rawdistance`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => parseInt(response.text()))
+            .then(response => this.getIntegerValue())
             .catch(err => {
                 log.warn(`error fetching value! ${err}`);
                 return '';
@@ -271,7 +307,7 @@ class Scratch3Dinnye {
 		let urlBase = `${serverURL}/${this.panelName}/command/gesture`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => response.text())
+            .then(response => this.getStringValue())
             .catch(err => {
                 log.warn(`error fetching value! ${err}`);
                 return '';
@@ -285,7 +321,7 @@ class Scratch3Dinnye {
 		let urlBase = `${serverURL}/${this.panelName}/command/voltage`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => parseInt(response.text()))
+            .then(response => this.getFloatValue())
             .catch(err => {
                 log.warn(`error fetching value! ${err}`);
                 return '';
@@ -299,7 +335,7 @@ class Scratch3Dinnye {
 		let urlBase = `${serverURL}/${this.panelName}/command/wifi`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => parseInt(response.text()))
+            .then(response => this.getIntegerValue())
             .catch(err => {
                 log.warn(`error fetching value! ${err}`);
                 return '';
@@ -313,7 +349,7 @@ class Scratch3Dinnye {
 		let urlBase = `${serverURL}/${this.panelName}/command/temperature`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => parseInt(response.text()))
+            .then(response => this.getIntegerValue())
             .catch(err => {
                 log.warn(`error fetching value! ${err}`);
                 return '';
@@ -328,7 +364,7 @@ class Scratch3Dinnye {
 		let urlBase = `${serverURL}/${this.panelName}/command/button/${args.PORT}`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => response.text() === "on")
+            .then(response => this.getBooleanValue())
             .catch(err => {
                 log.warn(`error fetching value! ${err}`);
                 return '';
@@ -342,7 +378,7 @@ class Scratch3Dinnye {
 		let urlBase = `${serverURL}/${this.panelName}/command/input/${args.PORT}`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-            .then(response => response.text() === "on")
+            .then(response => this.getBooleanValue())
             .catch(err => {
                 log.warn(`error fetching value! ${err}`);
                 return '';
