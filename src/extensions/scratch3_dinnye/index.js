@@ -91,8 +91,32 @@ class Scratch3Dinnye {
                             defaultValue: 1
                         },
                         VALUE: {
-                            type: ArgumentType.STRING,
-                            defaultValue: "on"
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 50
+                        }
+                    }
+                },
+				
+				{
+                    opcode: 'ledOn',
+                    blockType: BlockType.COMMAND,
+                    text: 'led [PORT] on',
+                    arguments: {
+                        PORT: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 1
+                        }
+                    }
+                },
+				
+				{
+                    opcode: 'ledOff',
+                    blockType: BlockType.COMMAND,
+                    text: 'led [PORT] off',
+                    arguments: {
+                        PORT: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 1
                         }
                     }
                 },
@@ -219,6 +243,34 @@ class Scratch3Dinnye {
 		if (this.panelName === null) return
 		
 		let urlBase = `${serverURL}/${this.panelName}/command/led/${args.PORT}/${args.VALUE}`;
+
+        const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
+            .then(response => {
+                log.warn(response);
+            })
+            .catch(err => {
+                log.warn(`error fetching value! ${err}`);
+            });
+    }
+	
+	ledOn (args) {
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/led/${args.PORT}/on`;
+
+        const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
+            .then(response => {
+                log.warn(response);
+            })
+            .catch(err => {
+                log.warn(`error fetching value! ${err}`);
+            });
+    }
+	
+	ledOff (args) {
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/led/${args.PORT}/off`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => {
