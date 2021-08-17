@@ -4,12 +4,13 @@ const Cast = require('../../util/cast');
 const log = require('../../util/log');
 const fetchWithTimeout = require('../../util/fetch-with-timeout');
 
-const serverURL = 'https://dinnye-tabor.herokuapp.com/api/';
+const serverURL = 'https://dinnye-tabor.herokuapp.com/api/boards';
 const serverTimeoutMs = 1000; // 1 sec
 
 class Scratch3Dinnye {
     constructor (runtime) {
         this.runtime = runtime;
+		this.panelName = '';
     }
 
     getInfo () {
@@ -19,6 +20,17 @@ class Scratch3Dinnye {
             blocks: [
 			
 				// COMMANDS
+	
+				{
+                    opcode: 'setPanelName',
+                    blockType: BlockType.COMMAND,
+                    text: 'set panel name [NAME]',
+                    arguments: {
+                        NAME: {
+                            type: ArgumentType.STRING
+                        }
+                    }
+                },
 				
 				{
                     opcode: 'led',
@@ -145,10 +157,17 @@ class Scratch3Dinnye {
 	// FUNCTIONS
 	// ---------
 	
+	// HELPER
+	
+	setPanelName (args) {
+		this.panelName = args.NAME
+    }
 	// COMMANDS
 	
 	led (args) {
-		let urlBase = `${serverURL}led/${args.PORT}/${args.VALUE}`;
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/led/${args.PORT}/${args.VALUE}`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => {
@@ -160,7 +179,9 @@ class Scratch3Dinnye {
     }
 	
 	rgbledsimple (args) {
-		let urlBase = `${serverURL}rgbled/${args.PATTERN}`;
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/rgbled/${args.PATTERN}`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => {
@@ -172,7 +193,9 @@ class Scratch3Dinnye {
     }
 	
 	motor (args) {
-		let urlBase = `${serverURL}motor/${args.PORT}/${args.VALUE}`;
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/motor/${args.PORT}/${args.VALUE}`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => {
@@ -184,7 +207,9 @@ class Scratch3Dinnye {
     }
 	
     drive (args) {
-		let urlBase = `${serverURL}drive/${args.COMMAND}`;
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/drive/${args.COMMAND}`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => {
@@ -197,7 +222,9 @@ class Scratch3Dinnye {
 	
 	// REPORTERS
     distance (args) {
-		let urlBase = `${serverURL}distance`;
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/distance`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => parseInt(response.text()))
@@ -209,7 +236,9 @@ class Scratch3Dinnye {
     }
 	
 	rawdistance (args) {
-		let urlBase = `${serverURL}rawdistance`;
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/rawdistance`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => parseInt(response.text()))
@@ -221,7 +250,9 @@ class Scratch3Dinnye {
     }
 	
 	gesture (args) {
-		let urlBase = `${serverURL}gesture`;
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/gesture`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => response.text())
@@ -233,7 +264,9 @@ class Scratch3Dinnye {
     }
 	
 	voltage (args) {
-		let urlBase = `${serverURL}voltage`;
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/voltage`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => parseInt(response.text()))
@@ -245,7 +278,9 @@ class Scratch3Dinnye {
     }
 	
 	wifi (args) {
-		let urlBase = `${serverURL}wifi`;
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/wifi`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => parseInt(response.text()))
@@ -257,7 +292,9 @@ class Scratch3Dinnye {
     }
 	
 	temperature (args) {
-		let urlBase = `${serverURL}temperature`;
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/temperature`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => parseInt(response.text()))
@@ -270,7 +307,9 @@ class Scratch3Dinnye {
 	
 	// BOOLEAN
 	button (args) {
-		let urlBase = `${serverURL}button/${args.PORT}`;
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/button/${args.PORT}`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => response.text() === "on")
@@ -282,7 +321,9 @@ class Scratch3Dinnye {
     }
 	
 	input (args) {
-		let urlBase = `${serverURL}input/${args.PORT}`;
+		if (this.panelName === null) return
+		
+		let urlBase = `${serverURL}/${this.panelName}/command/input/${args.PORT}`;
 
         const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
             .then(response => response.text() === "on")
