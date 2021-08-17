@@ -10,13 +10,13 @@ const serverTimeoutMs = 1000; // 1 sec
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const apiCalls = {
-	distance: { lastCall: null, lastValue: null }
-	rawdistance: { lastCall: null, lastValue: null }
-	gesture: { lastCall: null, lastValue: null }
-	voltage: { lastCall: null, lastValue: null }
-	wifi: { lastCall: null, lastValue: null }
-	temperature: { lastCall: null, lastValue: null }
-	button: { lastCall: null, lastValue: null }
+	distance: { lastCall: null, lastValue: null },
+	rawdistance: { lastCall: null, lastValue: null },
+	gesture: { lastCall: null, lastValue: null },
+	voltage: { lastCall: null, lastValue: null },
+	wifi: { lastCall: null, lastValue: null },
+	temperature: { lastCall: null, lastValue: null },
+	button: { lastCall: null, lastValue: null },
 	input: { lastCall: null, lastValue: null }
 }
 
