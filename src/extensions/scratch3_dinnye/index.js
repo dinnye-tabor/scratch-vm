@@ -27,8 +27,9 @@ class Scratch3Dinnye {
 			let responseBase = `${serverURL}/${this.panelName}/response`;
 			
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => {
-					let result = parseInt(response.text());
+				.then(response => response.text())
+				.then(responseText => {
+					let result = parseInt(responseText);
 					apiCalls[valueType].lastCall = new Date().getTime();
 					apiCalls[valueType].lastValue = result;
 					return result;
@@ -44,8 +45,9 @@ class Scratch3Dinnye {
 			let responseBase = `${serverURL}/${this.panelName}/response`;
 			
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => {
-					let result = parseFloat(response.text());
+				.then(response => response.text())
+				.then(responseText => {
+					let result = parseFloat(responseText);
 					apiCalls[valueType].lastCall = new Date().getTime();
 					apiCalls[valueType].lastValue = result;
 					return result;
@@ -61,8 +63,9 @@ class Scratch3Dinnye {
 			let responseBase = `${serverURL}/${this.panelName}/response`;
 			
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => {
-					let result = response.text();
+				.then(response => response.text())
+				.then(responseText => {
+					let result = responseText;
 					apiCalls[valueType].lastCall = new Date().getTime();
 					apiCalls[valueType].lastValue = result;
 					return result;
@@ -78,8 +81,9 @@ class Scratch3Dinnye {
 			let responseBase = `${serverURL}/${this.panelName}/response`;
 			
 			const promise = fetchWithTimeout(responseBase, {}, serverTimeoutMs)
-				.then(response => {
-					let result = (response.text() === "on");
+				.then(response => response.text())
+				.then(responseText => {
+					let result = (responseText === "on");
 					apiCalls[valueType].lastCall = new Date().getTime();
 					apiCalls[valueType].lastValue = result;
 					return result;
