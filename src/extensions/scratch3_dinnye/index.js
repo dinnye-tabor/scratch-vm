@@ -368,7 +368,14 @@ class Scratch3Dinnye {
 			let urlBase = `${serverURL}/${this.panelName}/command/distance`;
 		
 			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-				.then(response => this.getIntegerValue('distance'))
+				.then(response => response.text())
+				.then(responseText => {
+					let result = parseInt(responseText);
+					apiCalls.distance.lastCall = new Date().getTime();
+					apiCalls.distance.lastValue = result;
+					return result;
+				})
+				// .then(response => this.getIntegerValue('distance'))
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return '';
@@ -386,7 +393,14 @@ class Scratch3Dinnye {
 			let urlBase = `${serverURL}/${this.panelName}/command/rawdistance`;
 
 			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-				.then(response => this.getIntegerValue('rawdistance'))
+				.then(response => response.text())
+				.then(responseText => {
+					let result = parseInt(responseText);
+					apiCalls.rawdistance.lastCall = new Date().getTime();
+					apiCalls.rawdistance.lastValue = result;
+					return result;
+				})
+				// .then(response => this.getIntegerValue('rawdistance'))
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return '';
@@ -404,7 +418,14 @@ class Scratch3Dinnye {
 			let urlBase = `${serverURL}/${this.panelName}/command/gesture`;
 
 			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-				.then(response => this.getStringValue('gesture'))
+				.then(response => response.text())
+				.then(responseText => {
+					let result = responseText;
+					apiCalls.gesture.lastCall = new Date().getTime();
+					apiCalls.gesture.lastValue = result;
+					return result;
+				})
+				// .then(response => this.getStringValue('gesture'))
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return '';
@@ -423,7 +444,14 @@ class Scratch3Dinnye {
 			let urlBase = `${serverURL}/${this.panelName}/command/voltage`;
 
 			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-				.then(response => this.getFloatValue('voltage'))
+				.then(response => response.text())
+				.then(responseText => {
+					let result = parseFloat(responseText);
+					apiCalls.voltage.lastCall = new Date().getTime();
+					apiCalls.voltage.lastValue = result;
+					return result;
+				})
+				// .then(response => this.getFloatValue('voltage'))
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return '';
@@ -441,7 +469,14 @@ class Scratch3Dinnye {
 			let urlBase = `${serverURL}/${this.panelName}/command/wifi`;
 
 			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-				.then(response => this.getIntegerValue('wifi'))
+				.then(response => response.text())
+				.then(responseText => {
+					let result = parseInt(responseText);
+					apiCalls.wifi.lastCall = new Date().getTime();
+					apiCalls.wifi.lastValue = result;
+					return result;
+				})
+				// .then(response => this.getIntegerValue('wifi'))
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return '';
@@ -460,7 +495,14 @@ class Scratch3Dinnye {
 			let urlBase = `${serverURL}/${this.panelName}/command/temperature`;
 
 			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-				.then(response => this.getIntegerValue('temperature'))
+				.then(response => response.text())
+				.then(responseText => {
+					let result = parseInt(responseText);
+					apiCalls.temperature.lastCall = new Date().getTime();
+					apiCalls.temperature.lastValue = result;
+					return result;
+				})
+				// .then(response => this.getIntegerValue('temperature'))
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return '';
@@ -480,7 +522,14 @@ class Scratch3Dinnye {
 			let urlBase = `${serverURL}/${this.panelName}/command/button/${args.PORT}`;
 
 			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-				.then(response => this.getBooleanValue('button'))
+				.then(response => response.text())
+				.then(responseText => {
+					let result = (responseText === "on");
+					apiCalls.button.lastCall = new Date().getTime();
+					apiCalls.button.lastValue = result;
+					return result;
+				})
+				// .then(response => this.getBooleanValue('button'))
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return '';
@@ -498,7 +547,14 @@ class Scratch3Dinnye {
 			let urlBase = `${serverURL}/${this.panelName}/command/input/${args.PORT}`;
 
 			const promise = fetchWithTimeout(urlBase, {}, serverTimeoutMs)
-				.then(response => this.getBooleanValue('input'))
+				.then(response => response.text())
+				.then(responseText => {
+					let result = (responseText === "on");
+					apiCalls.input.lastCall = new Date().getTime();
+					apiCalls.input.lastValue = result;
+					return result;
+				})
+				// .then(response => this.getBooleanValue('input'))
 				.catch(err => {
 					log.warn(`error fetching value! ${err}`);
 					return '';
